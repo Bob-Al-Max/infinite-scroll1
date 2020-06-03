@@ -1,0 +1,68 @@
+{% extends 'posts/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<h1>Articles  <a href="/postadd/">Create post</a></h1>
+
+<div class="row infinite-container">
+{% for post in post_list %}
+<div class="card w-75 infinite-item" style="margin-bottom:30px">
+    <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+
+        {% if post.image %}
+         <img src="{{post.image.url}}" class="bd-placeholder-img card-img-top">
+        {% endif %}
+
+
+        <p class="card-text">{{post.content}}</p>
+        <a href="{{post.get_absolute_url}}" class="btn btn-primary">Подробнее</a>
+    </div>
+</div>
+
+
+{% endfor %}
+
+</div>
+ {% if page_obj.has_next %}
+                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+                {% endif %}
+                <div class="d-flex justify-content-center" style="display:none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+
+<script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
+    <script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+        
+    },
+    offset: 'bottom-in-view',
+
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }
+        
+    });
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
